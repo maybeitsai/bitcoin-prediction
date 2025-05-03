@@ -5,13 +5,11 @@
 
 ## Domain Proyek
 
-Bitcoin (BTC) merupakan aset kripto paling populer dan memiliki kapitalisasi pasar terbesar. Harganya dikenal sangat fluktuatif dan dipengaruhi oleh berbagai faktor kompleks, termasuk sentimen pasar, berita regulasi, tren makroekonomi, adopsi teknologi, dan dinamika penawaran-permintaan internal blockchain. Tingginya volatilitas ini menawarkan peluang keuntungan yang signifikan bagi investor dan *trader*, namun juga membawa risiko kerugian yang besar.
+Bitcoin (BTC) merupakan aset kripto perintis dan paling dikenal, memegang posisi dominan dalam hal kapitalisasi pasar di dunia aset digital [1]. Karakteristik utama harga Bitcoin adalah volatilitasnya yang sangat tinggi, yang dipengaruhi oleh interaksi kompleks berbagai faktor. Faktor-faktor ini meliputi sentimen pasar yang seringkali didorong oleh berita dan media sosial, perkembangan regulasi di berbagai negara, tren makroekonomi global (seperti inflasi dan suku bunga), adopsi teknologi blockchain, serta dinamika internal jaringan Bitcoin seperti *halving* dan aktivitas penambangan [2], [3]. Tingginya volatilitas ini, meskipun membuka peluang keuntungan spekulatif yang signifikan bagi para *trader* dan investor, juga secara inheren membawa risiko kerugian yang besar [4].
 
-Oleh karena itu, kemampuan untuk memprediksi pergerakan harga Bitcoin menjadi sangat penting. Prediksi yang akurat dapat membantu para pemangku kepentingan (investor, *trader*, institusi keuangan, analis pasar) dalam membuat keputusan investasi yang lebih terinformasi, mengelola risiko portofolio, mengoptimalkan strategi perdagangan (*trading*), dan memahami dinamika pasar kripto secara lebih baik. Namun, sifat harga Bitcoin yang non-linier, non-stasioner, dan dipengaruhi banyak faktor tak terduga membuat prediksi menjadi tugas yang sangat menantang.
+Dalam konteks ini, kemampuan untuk memprediksi arah dan besaran pergerakan harga Bitcoin menjadi sangat krusial. Prediksi harga yang akurat, meskipun sulit dicapai secara konsisten, dapat memberikan nilai tambah yang besar bagi berbagai pemangku kepentingan. Investor dapat menggunakannya untuk membuat keputusan alokasi aset yang lebih baik, *trader* dapat mengoptimalkan strategi masuk dan keluar pasar, institusi keuangan dapat mengelola risiko eksposur terhadap aset kripto, dan analis pasar dapat memperoleh pemahaman yang lebih mendalam tentang dinamika pasar [5]. Namun, sifat harga Bitcoin yang menunjukkan perilaku non-linier, non-stasioner, dan seringkali dipengaruhi oleh peristiwa tak terduga (*black swan events*) menjadikan prediksi harga sebagai tantangan komputasional dan analitis yang signifikan [3], [6].
 
-Pendekatan *machine learning*, khususnya model *deep learning* untuk data deret waktu (*time series*), telah menunjukkan potensi dalam menangkap pola kompleks dan dependensi jangka panjang pada data harga aset finansial. Model seperti *Long Short-Term Memory* (LSTM) dan *Convolutional Neural Network* (CNN) yang digabungkan dengan LSTM (CNN-LSTM) sering digunakan karena kemampuannya dalam memodelkan data sekuensial. Proyek ini bertujuan untuk menerapkan dan mengevaluasi model-model tersebut untuk prediksi harga Bitcoin harian.
-
-*(Catatan: Idealnya, bagian ini didukung oleh referensi ilmiah dari sumber kredibel seperti jurnal akademik atau konferensi bereputasi. Contoh sumber: [1] Kajian tentang volatilitas Bitcoin, [2] Penelitian tentang aplikasi deep learning pada prediksi harga aset kripto. Sumber dapat dicari melalui Google Scholar, arXiv, atau database akademik lainnya).*
+Pendekatan *machine learning*, terutama model *deep learning* yang dirancang untuk data sekuensial atau deret waktu, telah menunjukkan potensi yang menjanjikan dalam menangani kompleksitas data harga aset finansial, termasuk Bitcoin. Model seperti *Long Short-Term Memory* (LSTM), sebuah varian dari *Recurrent Neural Network* (RNN), secara khusus dirancang untuk menangkap dependensi jangka panjang dalam data deret waktu [7]. Selain itu, arsitektur *hybrid* yang menggabungkan *Convolutional Neural Network* (CNN) untuk ekstraksi fitur lokal dengan LSTM untuk pemodelan temporal (CNN-LSTM) juga telah dieksplorasi dan menunjukkan hasil yang baik dalam beberapa studi prediksi finansial [8]. Proyek ini bertujuan untuk menerapkan dan membandingkan kinerja model LSTM dan CNN-LSTM dalam tugas prediksi harga penutupan harian Bitcoin.
 
 ## Business Understanding
 
@@ -23,25 +21,20 @@ Pendekatan *machine learning*, khususnya model *deep learning* untuk data deret 
 
 ### Goals
 
-1.  Membangun model *machine learning* yang mampu memprediksi harga penutupan harian Bitcoin untuk periode waktu tertentu di masa depan.
-2.  Mengimplementasikan dan melatih dua model *deep learning* (LSTM dan CNN-LSTM) untuk tugas prediksi ini.
-3.  Mengevaluasi kinerja kedua model menggunakan metrik evaluasi standar untuk regresi (*forecasting*) seperti *Mean Absolute Error* (MAE), *Root Mean Squared Error* (RMSE), dan *Mean Absolute Percentage Error* (MAPE).
-4.  Membandingkan hasil evaluasi kedua model untuk menentukan pendekatan mana yang memberikan prediksi lebih baik pada dataset yang digunakan.
+1.  Membangun dan melatih model prediksi harga penutupan harian Bitcoin menggunakan data historis OHLCV (Open, High, Low, Close, Volume).
+2.  Mengimplementasikan dua arsitektur *deep learning* yang umum digunakan untuk data deret waktu: LSTM dan CNN-LSTM *hybrid*.
+3.  Mengevaluasi dan membandingkan performa kedua model pada data pengujian (*test set*) menggunakan metrik evaluasi kuantitatif yang relevan, seperti *Mean Absolute Error* (MAE), *Root Mean Squared Error* (RMSE), dan *Mean Absolute Percentage Error* (MAPE).
+4.  Menentukan model mana (LSTM atau CNN-LSTM) yang memberikan hasil prediksi terbaik berdasarkan metrik evaluasi yang dipilih untuk dataset dan konfigurasi yang digunakan dalam proyek ini.
 
 ### Solution Statement
 
 Untuk mencapai tujuan di atas, solusi yang diajukan adalah sebagai berikut:
 
-1.  Menggunakan dataset historis harga harian Bitcoin yang mencakup fitur *Open, High, Low, Close, Volume* (OHLCV) dan *Percentage Change*.
-2.  Melakukan pra-pemrosesan data yang meliputi pembersihan data (penanganan nilai hilang, konversi tipe data), rekayasa fitur (*feature engineering*) dengan menambahkan fitur *lag*, *rolling mean*, *rolling standard deviation*, dan fitur berbasis tanggal untuk menangkap dependensi temporal dan pola musiman potensial.
-3.  Membagi data secara kronologis menjadi set pelatihan (75%), validasi (15%), dan pengujian (10%) untuk menjaga struktur deret waktu dan mencegah *data leakage*.
-4.  Melakukan penskalaan data (normalisasi) menggunakan `MinMaxScaler` ke rentang [0, 1] agar sesuai dengan fungsi aktivasi model *deep learning* dan mempercepat konvergensi.
-5.  Mengembangkan dan melatih model **LSTM** standar sebagai *baseline* atau solusi pertama. Arsitektur model akan mencakup beberapa lapisan LSTM dengan *dropout* untuk regularisasi.
-6.  Mengembangkan dan melatih model **CNN-LSTM *hybrid*** sebagai solusi kedua. Model ini akan menggunakan lapisan Conv1D untuk mengekstraksi fitur lokal dari sekuens waktu sebelum dimasukkan ke lapisan LSTM untuk pemodelan dependensi temporal.
-7.  Melatih kedua model menggunakan data pelatihan dan memvalidasinya menggunakan data validasi, dengan *callback* seperti *Early Stopping* dan *ReduceLROnPlateau* untuk optimalisasi proses pelatihan.
-8.  Mengevaluasi performa kedua model pada data pengujian menggunakan metrik MAE, RMSE, dan MAPE. Hasil prediksi akan di-inverse transform ke skala harga asli sebelum evaluasi.
-9.  Membandingkan metrik evaluasi dan visualisasi prediksi untuk memilih model terbaik sebagai solusi akhir untuk masalah prediksi harga Bitcoin ini.
-10. Melakukan simulasi prediksi untuk 30 hari ke depan menggunakan model terbaik sebagai demonstrasi kemampuan prediktif (dengan catatan keterbatasan simulasi fitur masa depan).
+1.  Mengajukan dua pendekatan model *deep learning* yang berbeda untuk prediksi harga Bitcoin:
+    *   Model **Long Short-Term Memory (LSTM)** standar.
+    *   Model **hybrid Convolutional Neural Network-LSTM (CNN-LSTM)**.
+2.  Melakukan rekayasa fitur (*feature engineering*) dengan menambahkan fitur *lag*, *rolling statistics*, dan fitur berbasis tanggal untuk memperkaya informasi input bagi kedua model.
+3.  Membandingkan kinerja kedua model (LSTM vs CNN-LSTM) secara kuantitatif menggunakan metrik evaluasi MAE, RMSE, dan MAPE pada data pengujian yang tidak terlihat selama pelatihan. Model dengan performa terbaik berdasarkan metrik ini akan dianggap sebagai solusi yang lebih unggul dalam konteks eksperimen ini.
 
 ## Data Understanding
 
@@ -283,7 +276,7 @@ Simulasi dilakukan secara iteratif:
 ![Simulasi Prediksi Harga Bitcoin untuk 30 Hari ke Depan (Model CNN-LSTM)](Image/bitcoin-forecast-30day.png)
 **Gambar 8. Simulasi Prediksi Harga Bitcoin untuk 30 Hari ke Depan (Model CNN-LSTM)**
 
-Gambar 8 menampilkan plot harga penutupan historis selama 90 hari terakhir (biru) diikuti oleh hasil simulasi prediksi untuk 30 hari ke depan (merah putus-putus) menggunakan model CNN-LSTM.
+Gambar 8 menunjukkan harga historis 90 hari terakhir (biru) dan prediksi 30 hari ke depan (merah putus-putus). Simulasi ini menunjukkan potensi arah harga berdasarkan pola historis yang dipelajari model. Namun, penting untuk diingat bahwa simulasi ini memiliki keterbatasan signifikan, terutama dalam hal aproksimasi fitur input masa depan dan ketidakmampuan memprediksi peristiwa eksternal tak terduga. Akurasi cenderung menurun seiring bertambahnya horizon waktu prediksi. Hasil ini sebaiknya dianggap sebagai indikasi tren potensial, bukan ramalan pasti.
 
 ### Interpretasi dan Keterbatasan
 
@@ -320,3 +313,21 @@ Proyek ini berhasil mengembangkan dan membandingkan dua model *deep learning* (L
 5.  **Metode Ensemble:** Gabungkan prediksi dari beberapa model berbeda (misalnya, LSTM, CNN-LSTM, ARIMA, Prophet) untuk meningkatkan robustitas dan akurasi prediksi.
 6.  **Simulasi yang Lebih Baik:** Kembangkan strategi simulasi yang lebih canggih yang mencoba memodelkan atau memprediksi evolusi fitur input lainnya, bukan hanya mengaproksimasinya secara sederhana.
 7.  **Evaluasi Jangka Panjang:** Lakukan evaluasi *backtesting* dengan *rolling forecast origin* untuk mendapatkan ukuran generalisasi model yang lebih andal dari waktu ke waktu.
+
+## Daftar Pustaka
+
+[1] Nakamoto, S. (2008). *Bitcoin: A Peer-to-Peer Electronic Cash System*. [Online]. Tersedia: https://bitcoin.org/bitcoin.pdf
+
+[2] Ciaian, P., Rajcaniova, M., & Kancs, d'A. (2016). The economics of BitCoin price formation. *Applied Economics*, *48*(19), 1799–1815.
+
+[3] Kristoufek, L. (2015). What Are the Main Drivers of the Bitcoin Price? Evidence from Wavelet Coherence Analysis. *PLOS ONE*, *10*(4), e0123923.
+
+[4] Baur, D. G., & Dimpfl, T. (2018). Asymmetric volatility in cryptocurrencies. *Economics Letters*, *173*, 148–151.
+
+[5] McNally, S., Roche, J., & Caton, S. (2018). Predicting the Price of Bitcoin Using Machine Learning. *26th Euromicro International Conference on Parallel, Distributed and Network-based Processing (PDP)*, 339-343.
+
+[6] Lahmiri, S., & Bekiros, S. (2019). Cryptocurrency forecasting with deep learning chaotic neural networks. *Chaos, Solitons & Fractals*, *118*, 35–40.
+
+[7] Hochreiter, S., & Schmidhuber, J. (1997). Long short-term memory. *Neural Computation*, *9*(8), 1735–1780.
+
+[8] Livieris, I. E., Pintelas, E., & Pintelas, P. (2020). A CNN–LSTM model for gold price time-series forecasting. *Neural Computing and Applications*, *32*(23), 17351–17360.
