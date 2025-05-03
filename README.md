@@ -210,16 +210,20 @@ Metrik utama yang digunakan adalah:
 
 1.  **Mean Absolute Error (MAE):** Mengukur rata-rata selisih absolut antara nilai aktual dan nilai prediksi. MAE memberikan gambaran rata-rata besarnya kesalahan prediksi dalam unit yang sama dengan variabel target (dalam kasus ini, USD). Semakin kecil MAE, semakin baik modelnya.
     Formula:
-    $$ \text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i| $$
+
+    $\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|$
+
     di mana $n$ adalah jumlah sampel, $y_i$ adalah nilai aktual, dan $\hat{y}_i$ adalah nilai prediksi.
 
-2.  **Root Mean Squared Error (RMSE):** Mengukur akar kuadrat dari rata-rata selisih kuadrat antara nilai aktual dan prediksi. RMSE memberikan bobot lebih besar pada kesalahan yang besar dibandingkan MAE. Seperti MAE, unitnya sama dengan variabel target (USD), dan nilai yang lebih kecil menunjukkan performa yang lebih baik.
+3.  **Root Mean Squared Error (RMSE):** Mengukur akar kuadrat dari rata-rata selisih kuadrat antara nilai aktual dan prediksi. RMSE memberikan bobot lebih besar pada kesalahan yang besar dibandingkan MAE. Seperti MAE, unitnya sama dengan variabel target (USD), dan nilai yang lebih kecil menunjukkan performa yang lebih baik.
     Formula:
-    $$ \text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2} $$
 
-3.  **Mean Absolute Percentage Error (MAPE):** Mengukur rata-rata persentase selisih absolut antara nilai aktual dan prediksi, relatif terhadap nilai aktual. MAPE berguna untuk memahami skala kesalahan relatif terhadap harga aktual. Nilai yang lebih kecil menunjukkan kesalahan persentase yang lebih rendah. Namun, MAPE bisa menjadi tidak stabil atau tidak terdefinisi jika nilai aktual ($y_i$) mendekati atau sama dengan nol (tidak relevan untuk harga Bitcoin).
+    $\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}$
+
+4.  **Mean Absolute Percentage Error (MAPE):** Mengukur rata-rata persentase selisih absolut antara nilai aktual dan prediksi, relatif terhadap nilai aktual. MAPE berguna untuk memahami skala kesalahan relatif terhadap harga aktual. Nilai yang lebih kecil menunjukkan kesalahan persentase yang lebih rendah. Namun, MAPE bisa menjadi tidak stabil atau tidak terdefinisi jika nilai aktual ($y_i$) mendekati atau sama dengan nol (tidak relevan untuk harga Bitcoin).
     Formula:
-    $$ \text{MAPE} = \frac{1}{n} \sum_{i=1}^{n} \left| \frac{y_i - \hat{y}_i}{y_i} \right| \times 100\% $$
+
+    $\text{MAPE} = \frac{1}{n} \sum_{i=1}^{n} \left| \frac{y_i - \hat{y}_i}{y_i} \right| \times 100\%$
 
 ### Proses Evaluasi
 
