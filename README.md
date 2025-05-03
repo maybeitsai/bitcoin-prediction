@@ -1,7 +1,4 @@
-Tentu, berikut adalah laporan proyek Machine Learning dalam format README.md GitHub, ditulis dalam bahasa Indonesia, berdasarkan notebook Jupyter yang Anda berikan dan mengikuti struktur serta persyaratan yang diminta:
-
-```markdown
-# Prediksi Harga Bitcoin Menggunakan Deep Learning (LSTM & CNN-LSTM)
+# Prediksi Harga Bitcoin Menggunakan Metode Deep Learning (LSTM & CNN-LSTM)
 
 - **Nama:** Harry Mardika
 - **Tanggal:** 3 Mei 2025
@@ -323,4 +320,3 @@ Proyek ini berhasil mengembangkan dan membandingkan dua model *deep learning* (L
 5.  **Metode Ensemble:** Gabungkan prediksi dari beberapa model berbeda (misalnya, LSTM, CNN-LSTM, ARIMA, Prophet) untuk meningkatkan robustitas dan akurasi prediksi.
 6.  **Simulasi yang Lebih Baik:** Kembangkan strategi simulasi yang lebih canggih yang mencoba memodelkan atau memprediksi evolusi fitur input lainnya, bukan hanya mengaproksimasinya secara sederhana.
 7.  **Evaluasi Jangka Panjang:** Lakukan evaluasi *backtesting* dengan *rolling forecast origin* untuk mendapatkan ukuran generalisasi model yang lebih andal dari waktu ke waktu.
-```
