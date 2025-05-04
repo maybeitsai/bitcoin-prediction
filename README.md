@@ -17,16 +17,13 @@ Pendekatan *machine learning*, khususnya model *deep learning* yang dirancang un
 
 ### Problem Statement
 
-1.  Bagaimana cara memprediksi harga penutupan harian Bitcoin di masa depan secara akurat berdasarkan data historisnya?
-2.  Bagaimana performa model *deep learning*, khususnya LSTM dan *hybrid* CNN-LSTM, dalam melakukan prediksi harga Bitcoin dibandingkan satu sama lain?
-3.  Faktor atau fitur apa saja dari data historis (seperti harga pembukaan, tertinggi, terendah, volume, serta fitur rekayasa seperti *lag* dan *rolling statistics*) yang dapat meningkatkan akurasi prediksi?
+1.  Bagaimana cara membangun model deep learning yang efektif untuk memprediksi harga penutupan harian Bitcoin berdasarkan data historisnya (OHLCV dan fitur turunan)?
+2. Di antara arsitektur LSTM murni dan hybrid CNN-LSTM, manakah model yang menghasilkan prediksi harga Bitcoin dengan akurasi lebih tinggi (berdasarkan metrik MAE, RMSE, MAPE) untuk dataset ini?
 
 ### Goals
 
-1.  Membangun dan melatih model prediksi harga penutupan harian Bitcoin menggunakan data historis OHLCV (Open, High, Low, Close, Volume).
-2.  Mengimplementasikan dua arsitektur *deep learning* yang umum digunakan untuk data deret waktu: LSTM dan CNN-LSTM *hybrid*.
-3.  Mengevaluasi dan membandingkan performa kedua model pada data pengujian (*test set*) menggunakan metrik evaluasi kuantitatif yang relevan, seperti *Mean Absolute Error* (MAE), *Root Mean Squared Error* (RMSE), dan *Mean Absolute Percentage Error* (MAPE).
-4.  Menentukan model mana (LSTM atau CNN-LSTM) yang memberikan hasil prediksi terbaik berdasarkan metrik evaluasi yang dipilih untuk dataset dan konfigurasi yang digunakan dalam proyek ini.
+1.  Mengembangkan dan melatih model prediksi harga penutupan harian Bitcoin menggunakan arsitektur LSTM dan CNN-LSTM dengan memanfaatkan data historis dan fitur rekayasa.
+2. Mengevaluasi dan membandingkan performa kedua model (LSTM vs CNN-LSTM) secara kuantitatif pada data uji untuk mengidentifikasi model dengan akurasi prediksi terbaik.
 
 ### Solution Statement
 
@@ -68,19 +65,19 @@ Analisis data eksploratif dilakukan untuk memahami karakteristik data:
 
 1.  **Statistik Deskriptif:** Ringkasan statistik (mean, std, min, max, kuartil) dari fitur numerik menunjukkan rentang nilai yang luas, terutama pada harga ('Close', 'Open', 'High', 'Low') dan 'Volume', yang mencerminkan pertumbuhan dan volatilitas Bitcoin selama periode data.
 2.  **Visualisasi Time Series:**
-    ![Visualisasi Data Time Series Harga Penutupan (Close) dan Volume Bitcoin](Image/timeseries-visualization.png)
+    ![Visualisasi Data Time Series Harga Penutupan (Close) dan Volume Bitcoin](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/timeseries-visualization.png)
     **Gambar 1. Visualisasi Data Time Series Harga Penutupan (Close) dan Volume Bitcoin**
 
     Gambar 1 menunjukkan plot harga penutupan (atas), volume perdagangan (tengah), dan persentase perubahan harian (bawah) terhadap waktu. Terlihat tren kenaikan harga jangka panjang yang signifikan dengan periode koreksi tajam. Volume perdagangan juga berfluktuasi, seringkali meningkat pada saat terjadi pergerakan harga besar. Persentase perubahan harian menunjukkan volatilitas yang cukup tinggi.
 
 3.  **Distribusi Perubahan Harian:**
-    ![Distribusi Perubahan Persentase Harian Harga Bitcoin](Image/distribution.png)
+    ![Distribusi Perubahan Persentase Harian Harga Bitcoin](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/distribution.png)
     **Gambar 2. Distribusi Perubahan Persentase Harian Harga Bitcoin**
 
     Gambar 2 menampilkan histogram dari persentase perubahan harga harian. Distribusinya terpusat di sekitar nol, namun memiliki "ekor" yang tebal (*heavy tails* atau *leptokurtic*), menandakan bahwa kejadian pergerakan harga ekstrem (baik positif maupun negatif) lebih sering terjadi dibandingkan dengan distribusi normal. Ini adalah karakteristik umum dari data return aset finansial.
 
 4.  **Analisis Volatilitas:**
-    ![Volatilitas Bergulir (30 Hari) Harga Bitcoin (Tahunan)](Image/bitcoin-30-day-roll.png)
+    ![Volatilitas Bergulir (30 Hari) Harga Bitcoin (Tahunan)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-30-day-roll.png)
     **Gambar 3. Volatilitas Bergulir (30 Hari) Harga Bitcoin (Tahunan)**
 
     Gambar 3 menunjukkan volatilitas bergulir 30 hari (dianualisasi) dari *return* harian. Terlihat jelas adanya periode volatilitas tinggi dan rendah (*volatility clustering*), di mana volatilitas cenderung meningkat tajam selama periode ketidakpastian pasar atau pergerakan harga yang besar.
@@ -249,10 +246,10 @@ Berdasarkan Tabel 1, model **CNN-LSTM** menunjukkan performa yang lebih baik dib
 
 Untuk memahami kinerja model secara visual, plot perbandingan antara harga aktual dan harga prediksi pada set pengujian dibuat:
 
-![Perbandingan Harga Aktual vs. Prediksi pada Set Pengujian](Image/bitcoin-prediction.png)
+![Perbandingan Harga Aktual vs. Prediksi pada Set Pengujian](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-prediction.png)
 **Gambar 6. Perbandingan Harga Aktual vs. Prediksi pada Set Pengujian**
 
-![Perbandingan Harga Aktual vs. Prediksi (Zoom)](Image/bitcoin-prediction-zoomin.png)
+![Perbandingan Harga Aktual vs. Prediksi (Zoom)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-prediction-zoomin.png)
 **Gambar 7. Perbandingan Harga Aktual vs. Prediksi (Zoom)**
 
 Gambar 6 menampilkan perbandingan harga aktual (biru) dengan prediksi dari kedua model (LSTM merah, CNN-LSTM hijau) pada seluruh set pengujian. Gambar 7 memberikan tampilan *zoom-in* pada periode awal set pengujian untuk detail yang lebih jelas.
@@ -279,7 +276,7 @@ Simulasi dilakukan secara iteratif:
 
 ### Hasil Simulasi
 
-![Simulasi Prediksi Harga Bitcoin untuk 30 Hari ke Depan (Model CNN-LSTM)](Image/bitcoin-forecast-30day.png)
+![Simulasi Prediksi Harga Bitcoin untuk 30 Hari ke Depan (Model CNN-LSTM)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-forecast-30day.png)
 **Gambar 8. Simulasi Prediksi Harga Bitcoin untuk 30 Hari ke Depan (Model CNN-LSTM)**
 
 Gambar 8 menunjukkan harga historis 90 hari terakhir (biru) dan prediksi 30 hari ke depan (merah putus-putus). Simulasi ini menunjukkan potensi arah harga berdasarkan pola historis yang dipelajari model. Namun, penting untuk diingat bahwa simulasi ini memiliki keterbatasan signifikan, terutama dalam hal aproksimasi fitur input masa depan dan ketidakmampuan memprediksi peristiwa eksternal tak terduga. Akurasi cenderung menurun seiring bertambahnya horizon waktu prediksi. Hasil ini sebaiknya dianggap sebagai indikasi tren potensial, bukan ramalan pasti.
