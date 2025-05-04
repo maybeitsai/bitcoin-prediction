@@ -86,11 +86,12 @@ Analisis data eksploratif lebih lanjut memberikan pemahaman mendalam tentang kar
 
 3.  **Distribusi Perubahan Harian:**
     ![Distribusi Perubahan Persentase Harian Harga Bitcoin](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/distribution.png?raw=true)
+
     **Gambar 4. Distribusi Perubahan Persentase Harian Harga Bitcoin**
 
     Gambar 4 menampilkan histogram dari persentase perubahan harga harian. Distribusinya menunjukkan puncak yang tajam di sekitar nol (*leptokurtic*) dan ekor yang tebal (*heavy tails*), yang berarti pergerakan harga harian ekstrem (baik naik maupun turun) lebih sering terjadi daripada yang diharapkan dalam distribusi normal. Ini adalah ciri khas data *return* aset finansial yang volatil.
 
-4.  **Analisis Volatilitas:**
+5.  **Analisis Volatilitas:**
     ![Volatilitas Bergulir (30 Hari) Harga Bitcoin (Tahunan)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-30-day-roll.png?raw=true)
     **Gambar 5. Volatilitas Bergulir (30 Hari) Harga Bitcoin (Tahunan)**
 
@@ -206,9 +207,11 @@ Callback berikut digunakan selama pelatihan:
 **Riwayat Pelatihan:**
 
 ![Riwayat Pelatihan Model LSTM (Loss)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/lstm-train.png?raw=true)
+
 **Gambar 6. Riwayat Pelatihan Model LSTM (Loss)**
 
 ![Riwayat Pelatihan Model CNN-LSTM (Loss)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/cnn-lstm-train.png?raw=true)
+
 **Gambar 7. Riwayat Pelatihan Model CNN-LSTM (Loss)**
 
 Gambar 6 dan 7 menunjukkan kurva *loss* (MSE) pada set pelatihan dan validasi selama proses pelatihan untuk masing-masing model. Kedua model menunjukkan penurunan *loss* yang signifikan pada epoch-epoch awal, menandakan proses pembelajaran. *Callback Early Stopping* menghentikan pelatihan sebelum mencapai 30 epoch penuh karena *loss* validasi mulai stagnan atau meningkat, yang membantu mencegah *overfitting*. Terlihat bahwa *loss* validasi untuk kedua model cenderung sedikit lebih tinggi daripada *loss* pelatihan, yang wajar terjadi. Model CNN-LSTM tampaknya mencapai *loss* validasi yang sedikit lebih rendah dibandingkan LSTM pada akhir pelatihan.
