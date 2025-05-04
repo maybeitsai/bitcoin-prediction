@@ -205,10 +205,10 @@ Callback berikut digunakan selama pelatihan:
 
 **Riwayat Pelatihan:**
 
-![Riwayat Pelatihan Model LSTM (Loss)](Image/lstm-train.png)
+![Riwayat Pelatihan Model LSTM (Loss)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/lstm-train.png?raw=true)
 **Gambar 6. Riwayat Pelatihan Model LSTM (Loss)**
 
-![Riwayat Pelatihan Model CNN-LSTM (Loss)](Image/cnn-lstm-train.png)
+![Riwayat Pelatihan Model CNN-LSTM (Loss)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/cnn-lstm-train.png?raw=true)
 **Gambar 7. Riwayat Pelatihan Model CNN-LSTM (Loss)**
 
 Gambar 6 dan 7 menunjukkan kurva *loss* (MSE) pada set pelatihan dan validasi selama proses pelatihan untuk masing-masing model. Kedua model menunjukkan penurunan *loss* yang signifikan pada epoch-epoch awal, menandakan proses pembelajaran. *Callback Early Stopping* menghentikan pelatihan sebelum mencapai 30 epoch penuh karena *loss* validasi mulai stagnan atau meningkat, yang membantu mencegah *overfitting*. Terlihat bahwa *loss* validasi untuk kedua model cenderung sedikit lebih tinggi daripada *loss* pelatihan, yang wajar terjadi. Model CNN-LSTM tampaknya mencapai *loss* validasi yang sedikit lebih rendah dibandingkan LSTM pada akhir pelatihan.
@@ -260,10 +260,10 @@ Berdasarkan Tabel 1, model **CNN-LSTM** menunjukkan performa yang lebih baik dib
 
 Untuk memahami kinerja model secara visual, plot perbandingan antara harga aktual dan harga prediksi pada set pengujian dibuat:
 
-![Perbandingan Harga Aktual vs. Prediksi pada Set Pengujian](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-prediction.png)
+![Perbandingan Harga Aktual vs. Prediksi pada Set Pengujian](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-prediction.png?raw=true)
 **Gambar 6. Perbandingan Harga Aktual vs. Prediksi pada Set Pengujian**
 
-![Perbandingan Harga Aktual vs. Prediksi (Zoom)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-prediction-zoomin.png)
+![Perbandingan Harga Aktual vs. Prediksi (Zoom)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-prediction-zoomin.png?raw=true)
 **Gambar 7. Perbandingan Harga Aktual vs. Prediksi (Zoom)**
 
 Gambar 6 menampilkan perbandingan harga aktual (biru) dengan prediksi dari kedua model (LSTM merah, CNN-LSTM hijau) pada seluruh set pengujian. Gambar 7 memberikan tampilan *zoom-in* pada periode awal set pengujian untuk detail yang lebih jelas.
@@ -290,7 +290,7 @@ Simulasi dilakukan secara iteratif:
 
 ### Hasil Simulasi
 
-![Simulasi Prediksi Harga Bitcoin untuk 30 Hari ke Depan (Model CNN-LSTM)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-forecast-30day.png)
+![Simulasi Prediksi Harga Bitcoin untuk 30 Hari ke Depan (Model CNN-LSTM)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-forecast-30day.png?raw=true)
 **Gambar 8. Simulasi Prediksi Harga Bitcoin untuk 30 Hari ke Depan (Model CNN-LSTM)**
 
 Gambar 8 menunjukkan harga historis 90 hari terakhir (biru) dan prediksi 30 hari ke depan (merah putus-putus). Simulasi ini menunjukkan potensi arah harga berdasarkan pola historis yang dipelajari model. Namun, penting untuk diingat bahwa simulasi ini memiliki keterbatasan signifikan, terutama dalam hal aproksimasi fitur input masa depan dan ketidakmampuan memprediksi peristiwa eksternal tak terduga. Akurasi cenderung menurun seiring bertambahnya horizon waktu prediksi. Hasil ini sebaiknya dianggap sebagai indikasi tren potensial, bukan ramalan pasti.
