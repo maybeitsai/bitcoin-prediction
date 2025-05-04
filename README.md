@@ -261,12 +261,12 @@ Berdasarkan Tabel 1, model **CNN-LSTM** menunjukkan performa yang lebih baik dib
 Untuk memahami kinerja model secara visual, plot perbandingan antara harga aktual dan harga prediksi pada set pengujian dibuat:
 
 ![Perbandingan Harga Aktual vs. Prediksi pada Set Pengujian](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-prediction.png?raw=true)
-**Gambar 6. Perbandingan Harga Aktual vs. Prediksi pada Set Pengujian**
+**Gambar 8. Perbandingan Harga Aktual vs. Prediksi pada Set Pengujian**
 
 ![Perbandingan Harga Aktual vs. Prediksi (Zoom)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-prediction-zoomin.png?raw=true)
-**Gambar 7. Perbandingan Harga Aktual vs. Prediksi (Zoom)**
+**Gambar 9. Perbandingan Harga Aktual vs. Prediksi (Zoom)**
 
-Gambar 6 menampilkan perbandingan harga aktual (biru) dengan prediksi dari kedua model (LSTM merah, CNN-LSTM hijau) pada seluruh set pengujian. Gambar 7 memberikan tampilan *zoom-in* pada periode awal set pengujian untuk detail yang lebih jelas.
+Gambar 8 menampilkan perbandingan harga aktual (biru) dengan prediksi dari kedua model (LSTM merah, CNN-LSTM hijau) pada seluruh set pengujian. Gambar 9 memberikan tampilan *zoom-in* pada periode awal set pengujian untuk detail yang lebih jelas.
 
 Dari visualisasi, terlihat bahwa:
 -   Kedua model mampu menangkap tren umum dari pergerakan harga Bitcoin pada set pengujian.
@@ -291,9 +291,9 @@ Simulasi dilakukan secara iteratif:
 ### Hasil Simulasi
 
 ![Simulasi Prediksi Harga Bitcoin untuk 30 Hari ke Depan (Model CNN-LSTM)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-forecast-30day.png?raw=true)
-**Gambar 8. Simulasi Prediksi Harga Bitcoin untuk 30 Hari ke Depan (Model CNN-LSTM)**
+**Gambar 10. Simulasi Prediksi Harga Bitcoin untuk 30 Hari ke Depan (Model CNN-LSTM)**
 
-Gambar 8 menunjukkan harga historis 90 hari terakhir (biru) dan prediksi 30 hari ke depan (merah putus-putus). Simulasi ini menunjukkan potensi arah harga berdasarkan pola historis yang dipelajari model. Namun, penting untuk diingat bahwa simulasi ini memiliki keterbatasan signifikan, terutama dalam hal aproksimasi fitur input masa depan dan ketidakmampuan memprediksi peristiwa eksternal tak terduga. Akurasi cenderung menurun seiring bertambahnya horizon waktu prediksi. Hasil ini sebaiknya dianggap sebagai indikasi tren potensial, bukan ramalan pasti.
+Gambar 10 menunjukkan harga historis 90 hari terakhir (biru) dan prediksi 30 hari ke depan (merah putus-putus). Simulasi ini menunjukkan potensi arah harga berdasarkan pola historis yang dipelajari model. Namun, penting untuk diingat bahwa simulasi ini memiliki keterbatasan signifikan, terutama dalam hal aproksimasi fitur input masa depan dan ketidakmampuan memprediksi peristiwa eksternal tak terduga. Akurasi cenderung menurun seiring bertambahnya horizon waktu prediksi. Hasil ini sebaiknya dianggap sebagai indikasi tren potensial, bukan ramalan pasti.
 
 ### Interpretasi dan Keterbatasan
 
