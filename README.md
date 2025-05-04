@@ -17,16 +17,13 @@ Pendekatan *machine learning*, khususnya model *deep learning* yang dirancang un
 
 ### Problem Statement
 
-1.  Bagaimana cara memprediksi harga penutupan harian Bitcoin di masa depan secara akurat berdasarkan data historisnya?
-2.  Bagaimana performa model *deep learning*, khususnya LSTM dan *hybrid* CNN-LSTM, dalam melakukan prediksi harga Bitcoin dibandingkan satu sama lain?
-3.  Faktor atau fitur apa saja dari data historis (seperti harga pembukaan, tertinggi, terendah, volume, serta fitur rekayasa seperti *lag* dan *rolling statistics*) yang dapat meningkatkan akurasi prediksi?
+1.  Bagaimana cara membangun model deep learning yang efektif untuk memprediksi harga penutupan harian Bitcoin berdasarkan data historisnya (OHLCV dan fitur turunan)?
+2. Di antara arsitektur LSTM murni dan hybrid CNN-LSTM, manakah model yang menghasilkan prediksi harga Bitcoin dengan akurasi lebih tinggi (berdasarkan metrik MAE, RMSE, MAPE) untuk dataset ini?
 
 ### Goals
 
-1.  Membangun dan melatih model prediksi harga penutupan harian Bitcoin menggunakan data historis OHLCV (Open, High, Low, Close, Volume).
-2.  Mengimplementasikan dua arsitektur *deep learning* yang umum digunakan untuk data deret waktu: LSTM dan CNN-LSTM *hybrid*.
-3.  Mengevaluasi dan membandingkan performa kedua model pada data pengujian (*test set*) menggunakan metrik evaluasi kuantitatif yang relevan, seperti *Mean Absolute Error* (MAE), *Root Mean Squared Error* (RMSE), dan *Mean Absolute Percentage Error* (MAPE).
-4.  Menentukan model mana (LSTM atau CNN-LSTM) yang memberikan hasil prediksi terbaik berdasarkan metrik evaluasi yang dipilih untuk dataset dan konfigurasi yang digunakan dalam proyek ini.
+1.  Mengembangkan dan melatih model prediksi harga penutupan harian Bitcoin menggunakan arsitektur LSTM dan CNN-LSTM dengan memanfaatkan data historis dan fitur rekayasa.
+2. Mengevaluasi dan membandingkan performa kedua model (LSTM vs CNN-LSTM) secara kuantitatif pada data uji untuk mengidentifikasi model dengan akurasi prediksi terbaik.
 
 ### Solution Statement
 
