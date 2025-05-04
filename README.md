@@ -39,50 +39,64 @@ Untuk mencapai tujuan di atas, solusi yang diajukan adalah sebagai berikut:
 
 ### Deskripsi Dataset
 
-Dataset yang digunakan dalam proyek ini adalah data historis harga harian Bitcoin (BTC/USD) yang diperoleh dari file CSV (`btc_2_may_25.csv`). Dataset ini mencakup periode dari 1 Januari 2016 hingga 2 Mei 2025 (meskipun data setelah tanggal proyek mungkin bersifat sintetis atau dari sumber spesifik; untuk tujuan proyek ini, kita asumsikan data tersedia hingga tanggal tersebut).
+Dataset yang digunakan dalam proyek ini adalah data historis harga harian Bitcoin (BTC/USD) yang bersumber dari file CSV (`btc_2_may_25.csv`). Data mentah ini mencakup periode dari 1 Januari 2016 hingga 2 Mei 2025.
 
-Dataset ini berisi informasi penting mengenai aktivitas perdagangan Bitcoin setiap harinya. Jumlah total data setelah pembersihan awal dan penghapusan nilai NaN akibat *feature engineering* adalah 3380 baris data harian.
-
-Sumber data (contoh, jika relevan): *(Sebutkan sumber asli jika diketahui, misal: Investing.com, Kaggle Dataset, API bursa kripto)*. Jika menggunakan data dari Kaggle seperti pada notebook, sertakan tautannya jika memungkinkan.
+-   **Jumlah Data Mentah:** Dataset awal terdiri dari 3410 baris (setiap baris mewakili satu hari) dan 7 kolom fitur.
+-   **Sumber Data:** Data historis ini dapat diakses publik melalui platform finansial Investing.com. Tautan sumber: [https://id.investing.com/crypto/bitcoin/historical-data](https://id.investing.com/crypto/bitcoin/historical-data)
+-   **Jumlah Data Setelah Pemrosesan:** Setelah dilakukan pembersihan data, rekayasa fitur (*feature engineering*), dan penanganan nilai NaN yang muncul akibat operasi *lag* dan *rolling window*, dataset akhir yang siap untuk pemodelan terdiri dari **3380 baris** dan **21 kolom** (termasuk fitur hasil rekayasa dan kolom target).
 
 ### Variabel-variabel Dataset
 
-Dataset awal memiliki kolom-kolom berikut (disertai padanan bahasa Inggris yang digunakan setelah pra-pemrosesan):
+Dataset asli memiliki kolom-kolom berikut (disertai padanan bahasa Inggris yang digunakan setelah pra-pemrosesan):
 
--   **Tanggal** (`Date`): Tanggal pencatatan data (format DD/MM/YYYY).
--   **Terakhir** (`Close`): Harga penutupan Bitcoin pada hari tersebut (dalam USD). Ini adalah variabel target yang akan diprediksi.
--   **Pembukaan** (`Open`): Harga pembukaan Bitcoin pada hari tersebut (dalam USD).
--   **Tertinggi** (`High`): Harga tertinggi Bitcoin yang dicapai pada hari tersebut (dalam USD).
--   **Terendah** (`Low`): Harga terendah Bitcoin yang dicapai pada hari tersebut (dalam USD).
--   **Vol.** (`Volume`): Volume perdagangan Bitcoin pada hari tersebut (dalam unit BTC, dikonversi ke numerik dari format string seperti 'K' untuk ribu dan 'M' untuk juta).
--   **Perubahan%** (`Change_Percent`): Persentase perubahan harga penutupan dibandingkan hari sebelumnya (dikonversi ke numerik desimal).
+-   **Tanggal** (`Date`): Tanggal pencatatan data (format DD/MM/YYYY). Tipe data awal: object, dikonversi menjadi datetime.
+-   **Terakhir** (`Close`): Harga penutupan Bitcoin pada hari tersebut (dalam USD). Ini adalah **variabel target** yang akan diprediksi. Tipe data awal: object (karena format angka), dikonversi menjadi float.
+-   **Pembukaan** (`Open`): Harga pembukaan Bitcoin pada hari tersebut (dalam USD). Tipe data awal: object, dikonversi menjadi float.
+-   **Tertinggi** (`High`): Harga tertinggi Bitcoin yang dicapai pada hari tersebut (dalam USD). Tipe data awal: object, dikonversi menjadi float.
+-   **Terendah** (`Low`): Harga terendah Bitcoin yang dicapai pada hari tersebut (dalam USD). Tipe data awal: object, dikonversi menjadi float.
+-   **Vol.** (`Volume`): Volume perdagangan Bitcoin pada hari tersebut. Tipe data awal: object (misalnya, '123.4K', '5.6M'), dikonversi menjadi float (misalnya, 123400.0, 5600000.0).
+-   **Perubahan%** (`Change_Percent`): Persentase perubahan harga penutupan dibandingkan hari sebelumnya. Tipe data awal: object (misalnya, '-0.49%'), dikonversi menjadi float desimal (misalnya, -0.0049).
 
-Setelah pembersihan dan pra-pemrosesan awal, tipe data telah disesuaikan (Tanggal menjadi datetime, kolom harga dan volume menjadi float). Kolom `Date` dijadikan sebagai indeks DataFrame.
+Setelah pembersihan dan pra-pemrosesan awal, kolom `Date` dijadikan sebagai indeks DataFrame.
+
+### Pemeriksaan Kondisi Data
+
+Pemeriksaan awal pada data mentah (setelah dimuat dan sebelum *feature engineering*) menunjukkan kondisi berikut:
+
+-   **Missing Values:** Ditemukan 16 nilai hilang (*missing values*) pada kolom `Volume`. Nilai-nilai ini ditangani menggunakan metode *forward fill* (`ffill`) diikuti *backward fill* (`bfill`). Setelah penanganan ini, tidak ada nilai hilang pada fitur-fitur asli.
+-   **Duplikat Data:** Dilakukan pengecekan data duplikat (`df.duplicated().sum()`), dan hasilnya adalah 0, menunjukkan tidak ada baris data yang identik.
+-   **Outliers:** Analisis *outlier* menggunakan metode Interquartile Range (IQR) pada kolom harga (misalnya `Close`) mengidentifikasi adanya *outlier*. Sebagai contoh, pada kolom `Close`, terdeteksi 115 nilai yang berada di luar batas Q1 - 1.5*IQR dan Q3 + 1.5*IQR. Visualisasi *boxplot* (Gambar 1) dan plot deret waktu (Gambar 2) mengkonfirmasi keberadaan nilai-nilai ekstrem ini, yang umumnya terjadi pada periode volatilitas sangat tinggi di pasar Bitcoin. Dalam konteks prediksi harga aset volatil, *outlier* ini seringkali merupakan bagian dari dinamika pasar dan tidak dihapus, namun penskalaan data (normalisasi) akan membantu model menanganinya.
+
+![Analisis Outlier Harga Bitcoin Menggunakan Boxplot](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/outlier-analysis.png?raw=true)
+**Gambar 1. Analisis Outlier Harga Bitcoin Menggunakan Boxplot**
+
+![Harga Penutupan Bitcoin dengan Outlier Ditandai](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-outliers-highlighted.png?raw=true)
+**Gambar 2. Harga Penutupan Bitcoin dengan Outlier Ditandai (Titik Merah)**
 
 ### Exploratory Data Analysis (EDA)
 
-Analisis data eksploratif dilakukan untuk memahami karakteristik data:
+Analisis data eksploratif lebih lanjut memberikan pemahaman mendalam tentang karakteristik data:
 
-1.  **Statistik Deskriptif:** Ringkasan statistik (mean, std, min, max, kuartil) dari fitur numerik menunjukkan rentang nilai yang luas, terutama pada harga ('Close', 'Open', 'High', 'Low') dan 'Volume', yang mencerminkan pertumbuhan dan volatilitas Bitcoin selama periode data.
+1.  **Statistik Deskriptif:** Ringkasan statistik (`df.describe()`) menunjukkan rentang nilai yang sangat lebar untuk harga dan volume, mencerminkan pertumbuhan eksponensial dan volatilitas tinggi Bitcoin selama periode data. Standar deviasi yang besar pada kolom harga mengkonfirmasi volatilitas ini.
 2.  **Visualisasi Time Series:**
-    ![Visualisasi Data Time Series Harga Penutupan (Close) dan Volume Bitcoin](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/timeseries-visualization.png)
-    **Gambar 1. Visualisasi Data Time Series Harga Penutupan (Close) dan Volume Bitcoin**
+    ![Visualisasi Data Time Series Harga Penutupan (Close), Volume, dan Perubahan Harian Bitcoin](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/timeseries-visualization.png?raw=true)
+    **Gambar 3. Visualisasi Data Time Series Harga Penutupan (Close), Volume, dan Perubahan Harian Bitcoin**
 
-    Gambar 1 menunjukkan plot harga penutupan (atas), volume perdagangan (tengah), dan persentase perubahan harian (bawah) terhadap waktu. Terlihat tren kenaikan harga jangka panjang yang signifikan dengan periode koreksi tajam. Volume perdagangan juga berfluktuasi, seringkali meningkat pada saat terjadi pergerakan harga besar. Persentase perubahan harian menunjukkan volatilitas yang cukup tinggi.
+    Gambar 3 menampilkan plot harga penutupan (atas), volume perdagangan (tengah), dan persentase perubahan harian (bawah) terhadap waktu. Terlihat jelas tren kenaikan harga jangka panjang yang signifikan, diselingi periode koreksi tajam (bear market). Volume perdagangan juga menunjukkan variasi besar, seringkali melonjak saat terjadi pergerakan harga yang signifikan, menandakan aktivitas pasar yang tinggi. Persentase perubahan harian (return) berfluktuasi di sekitar nol tetapi dengan lonjakan besar sesekali.
 
 3.  **Distribusi Perubahan Harian:**
-    ![Distribusi Perubahan Persentase Harian Harga Bitcoin](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/distribution.png)
-    **Gambar 2. Distribusi Perubahan Persentase Harian Harga Bitcoin**
+    ![Distribusi Perubahan Persentase Harian Harga Bitcoin](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/distribution.png?raw=true)
+    **Gambar 4. Distribusi Perubahan Persentase Harian Harga Bitcoin**
 
-    Gambar 2 menampilkan histogram dari persentase perubahan harga harian. Distribusinya terpusat di sekitar nol, namun memiliki "ekor" yang tebal (*heavy tails* atau *leptokurtic*), menandakan bahwa kejadian pergerakan harga ekstrem (baik positif maupun negatif) lebih sering terjadi dibandingkan dengan distribusi normal. Ini adalah karakteristik umum dari data return aset finansial.
+    Gambar 4 menampilkan histogram dari persentase perubahan harga harian. Distribusinya menunjukkan puncak yang tajam di sekitar nol (*leptokurtic*) dan ekor yang tebal (*heavy tails*), yang berarti pergerakan harga harian ekstrem (baik naik maupun turun) lebih sering terjadi daripada yang diharapkan dalam distribusi normal. Ini adalah ciri khas data *return* aset finansial yang volatil.
 
 4.  **Analisis Volatilitas:**
-    ![Volatilitas Bergulir (30 Hari) Harga Bitcoin (Tahunan)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-30-day-roll.png)
-    **Gambar 3. Volatilitas Bergulir (30 Hari) Harga Bitcoin (Tahunan)**
+    ![Volatilitas Bergulir (30 Hari) Harga Bitcoin (Tahunan)](https://github.com/maybeitsai/bitcoin-prediction/blob/main/Image/bitcoin-30-day-roll.png?raw=true)
+    **Gambar 5. Volatilitas Bergulir (30 Hari) Harga Bitcoin (Tahunan)**
 
-    Gambar 3 menunjukkan volatilitas bergulir 30 hari (dianualisasi) dari *return* harian. Terlihat jelas adanya periode volatilitas tinggi dan rendah (*volatility clustering*), di mana volatilitas cenderung meningkat tajam selama periode ketidakpastian pasar atau pergerakan harga yang besar.
+    Gambar 5 memvisualisasikan volatilitas bergulir 30 hari (dianualisasi) dari *return* harian. Terlihat jelas fenomena *volatility clustering*, di mana periode volatilitas tinggi cenderung diikuti oleh periode volatilitas tinggi lainnya, dan sebaliknya. Puncak volatilitas seringkali bertepatan dengan periode ketidakpastian pasar atau perubahan harga yang drastis.
 
-Temuan EDA ini mengkonfirmasi sifat data harga Bitcoin yang kompleks, volatil, dan memiliki dependensi temporal, sehingga cocok untuk dimodelkan menggunakan pendekatan *deep learning* seperti LSTM.
+Temuan EDA ini menggarisbawahi kompleksitas data harga Bitcoin, termasuk tren non-linear, volatilitas tinggi, distribusi *return* yang tidak normal, dan adanya dependensi temporal. Karakteristik ini mendukung penggunaan model *deep learning* seperti LSTM dan CNN-LSTM yang dirancang untuk menangkap pola sekuensial yang kompleks.
 
 ## Data Preparation
 
@@ -192,12 +206,12 @@ Callback berikut digunakan selama pelatihan:
 **Riwayat Pelatihan:**
 
 ![Riwayat Pelatihan Model LSTM (Loss)](Image/lstm-train.png)
-**Gambar 4. Riwayat Pelatihan Model LSTM (Loss)**
+**Gambar 6. Riwayat Pelatihan Model LSTM (Loss)**
 
 ![Riwayat Pelatihan Model CNN-LSTM (Loss)](Image/cnn-lstm-train.png)
-**Gambar 5. Riwayat Pelatihan Model CNN-LSTM (Loss)**
+**Gambar 7. Riwayat Pelatihan Model CNN-LSTM (Loss)**
 
-Gambar 4 dan 5 menunjukkan kurva *loss* (MSE) pada set pelatihan dan validasi selama proses pelatihan untuk masing-masing model. Kedua model menunjukkan penurunan *loss* yang signifikan pada epoch-epoch awal, menandakan proses pembelajaran. *Callback Early Stopping* menghentikan pelatihan sebelum mencapai 30 epoch penuh karena *loss* validasi mulai stagnan atau meningkat, yang membantu mencegah *overfitting*. Terlihat bahwa *loss* validasi untuk kedua model cenderung sedikit lebih tinggi daripada *loss* pelatihan, yang wajar terjadi. Model CNN-LSTM tampaknya mencapai *loss* validasi yang sedikit lebih rendah dibandingkan LSTM pada akhir pelatihan.
+Gambar 6 dan 7 menunjukkan kurva *loss* (MSE) pada set pelatihan dan validasi selama proses pelatihan untuk masing-masing model. Kedua model menunjukkan penurunan *loss* yang signifikan pada epoch-epoch awal, menandakan proses pembelajaran. *Callback Early Stopping* menghentikan pelatihan sebelum mencapai 30 epoch penuh karena *loss* validasi mulai stagnan atau meningkat, yang membantu mencegah *overfitting*. Terlihat bahwa *loss* validasi untuk kedua model cenderung sedikit lebih tinggi daripada *loss* pelatihan, yang wajar terjadi. Model CNN-LSTM tampaknya mencapai *loss* validasi yang sedikit lebih rendah dibandingkan LSTM pada akhir pelatihan.
 
 ## Evaluation
 
